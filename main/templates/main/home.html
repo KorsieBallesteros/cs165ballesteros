@@ -1,0 +1,33 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<h4>My members</h4>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Student Number</th>
+            <th>Email</th>
+            <th>Contact Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for students in students %}
+            {% if user.is_authenticated %}
+                {% if user.get_username == students.organization.organization_abbrv %}
+                <tr>
+                    <th>{{students.student_name}}</th>
+                    <th>{{students.student_number}}</th>
+                    <th>{{students.student_email}}</th>
+                    <th>{{students.student_contact_no}}</th>
+                </tr>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+</br>
+{% else %}
+{% endif %}
+{% endblock %}    

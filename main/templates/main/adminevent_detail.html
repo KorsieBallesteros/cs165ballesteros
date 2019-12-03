@@ -1,0 +1,39 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+
+<div class="col s12 m6">
+        <div class="card hoverable">
+            <div class="card-content">
+                <span class="card-title"><strong>{{object.event_name}}</strong></span>
+                <p>Event Description: {{object.event_description}}</p>
+                <p>Event Head: {{object.student_representative}}</p>
+                <p>Must preregister? 
+                    {% if object.must_prereg == True %}
+                        Yes.
+                    {% else %}
+                        No.
+                    {% endif %}
+                </p>
+                <p>Registration fee: {{object.registration_fee}}</p>
+                <p>Minimun number of players: {{object.number_players_min}}</p>
+                <p>Maximum number of players: {{object.number_players_max}}</p>
+                <p>Day or Night Event? {{object.day_or_night}}</p>
+                <p>Mini Category: {{ object.mini_category }}</p>
+                <p>Points: 1st: {{object.first_points}}, 2nd: {{object.second_points}}, 3rd: {{object.third_points}}, Party: {{object.party_points}}</p>
+                <p>Event Rules and Guidelines: {{object.event_rules}}</p>
+                <p></p>
+
+            </div>
+        </div>
+<form class="col s12" method="post" action="/update_event_submission/" id="editevent">
+    {% csrf_token %}
+    <div class="container">
+        <p><strong>REVISED</strong> Event Rules and Guidelines:</p>
+        <!--<input name="rules1" class="form-control" placeholder="Enter all current event rules and guidelines + new rules and guidelines" type="text">-->
+        <textarea style="height:300px" rows="20" cols="50" name ="rules" form="editevent" placeholder="Enter all current event rules and guidelines + new rules and guidelines" ></textarea>
+        <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit" value="Create">Update</button>
+    </div>
+</form>
+
+{% endblock %}

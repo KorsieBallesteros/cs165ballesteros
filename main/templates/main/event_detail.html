@@ -1,0 +1,172 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+    <div class="row">
+            {% if user.get_username == object.student_representative.organization.organization_abbrv %}
+            <div class="col s12 m6">
+                <div class="card hoverable">
+                    <div class="card-content">
+                        <span class="card-title"><strong>Addendum</strong></span>
+                    </div>
+                    {% for add in addendum %}
+                    <div class='card-action'>
+                        <p>{{forloop.counter}}: {{add}}</p>
+                        <p style="font-size:70%">Reason: {{add.addendum_reason}}<br/>Timestamp: {{add.time_stamp_created}}</p>
+                        {% for add1 in addendum_approved %}
+                            {% if add.id == add1.id %}
+                                <p> approved by {{add1.signature_list_id.representative.student_name}} last {{add1.signature_list_id.time_stamp}}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col s12 m6">
+                    <div class="card hoverable">
+                        <div class="card-content">
+                            <span class="card-title"><strong>Consensus</strong></span>
+                        </div>
+                        {% for con in consensus %}
+                            {% ifchanged con.consensus_revision %}
+                            <div class='card-action'>
+                                <p>
+                                    {{con.signature_list_id.representative.organization.organization_abbrv}}: {{con.consensus_revision}}
+
+                                </p>
+                                <p style="font-size:70%">Reason: {{con.consensus_reason}}<br/>Timestamp: {{con.time_stamp_created}}</p>
+                            </div>
+                            {% endifchanged %}
+                        {% endfor %}
+                    </div>
+            </div>
+            <div class="col s12 m6">
+                <div class="card hoverable">
+                    <div class="card-content">
+                        <span class="card-title"><strong>Participating Organizations</strong></span>
+                            <div class='card-action'>
+                                {% for participant in participants %}
+                                    <a href="/myevents/{{object.event_name}}/{{participant.id}}">
+                                        {% ifchanged %}
+                                        <p>{{participant.representative.organization.organization_abbrv}}
+                                            {% if participant.signature_list_id.signature == False %}
+                                                (Pending Status)
+                                            {% else %}
+                                                (Registered)
+                                            {% endif %}
+
+                                        </p>
+                                        {% endifchanged %}
+                                    </a>
+                                {% endfor %}
+                                <!--{% for participant in participants %}
+                                    {% if participant.player.organization == orgs %}
+                                    <p style="font-size:70%">{{participant.role}}: {{participant.player.student_name}}</p>
+                                    {% endif %}
+                                {% endfor %}-->
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 m6">
+                <div class="card hoverable">
+                    <div class="card-content">
+                        <span class="card-title">Add Changes</span>
+                    </div>
+                    <div class="card-action">
+                        <a href="/myevents/newaddendum">New Addendum</a>
+                        <a href="/myevents/newconsensus">New Consensus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6">
+                <div class="card hoverable">
+                    <div class="card-content">
+                        <span class="card-title"><strong>{{object.event_name}}</strong></span>
+                        <p>Event Description: {{object.event_description}}</p>
+                        <p>Event Head: {{object.student_representative}}</p>
+                        <p>Must preregister? 
+                            {% if object.must_prereg == True %}
+                                Yes.
+                            {% else %}
+                                No.
+                            {% endif %}
+                        </p>
+                        <p>Registration fee: {{object.registration_fee}}</p>
+                        <p>Minimun number of players: {{object.number_players_min}}</p>
+                        <p>Maximum number of players: {{object.number_players_max}}</p>
+                        <p>Day or Night Event? {{object.day_or_night}}</p>
+                        <p>Mini Category: {{ object.mini_category }}</p>
+                        <p>Points: 1st: {{object.first_points}}, 2nd: {{object.second_points}}, 3rd: {{object.third_points}}, Party: {{object.party_points}}</p>
+                        <p>Event Rules and Guidelines: {{object.event_rules}}</p>
+                        <p></p>
+
+                    </div>
+                </div>
+        </div>
+        <div class="row">
+                <div class="col s12 m6">
+                    <div class="card hoverable">
+                        <div class="card-content">
+                            <span class="card-title"><strong>Schedule of Activities</strong></span>
+                                {% for activity in activities %}
+                                    <p><strong>{{activity.activity}}:</strong></p>
+                                    <p>    Date: {{activity.activity_date}}</p>
+                                    <p>    Time start: {{activity.activity_time_start}}</p>
+                                    <p>    Time end: {{activity.activity_time_end}}</p>
+                                    <p>    Venue: {{activity.activity_venue}}</p>
+                        </br>
+                                {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>       
+        
+            {% else %}
+    </div>
+            <div class="col s12 m6">
+                    <div class="card hoverable">
+                        <div class="card-content">
+                            <span class="card-title"><strong>{{object.event_name}}</strong></span>
+                            <p>Event Description: {{object.event_description}}</p>
+                            <p>Event Head: {{object.student_representative}}</p>
+                            <p>Must preregister? 
+                                {% if object.must_prereg == True %}
+                                    Yes.
+                                {% else %}
+                                    No.
+                                {% endif %}
+                            </p>
+                            <p>Registration fee: {{object.registration_fee}}</p>
+                            <p>Minimun number of players: {{object.number_players_min}}</p>
+                            <p>Maximum number of players: {{object.number_players_max}}</p>
+                            <p>Day or Night Event? {{object.day_or_night}}</p>
+                            <p>Mini Category: {{ object.mini_category }}</p>
+                            <p>Points: 1st: {{object.first_points}}, 2nd: {{object.second_points}}, 3rd: {{object.third_points}}, Party: {{object.party_points}}</p>
+                            <p>Event Rules and Guidelines: {{object.event_rules}}</p>
+                            <p></p>
+
+                        </div>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="card hoverable">
+                        <div class="card-content">
+                            <span class="card-title"><strong>Schedule of Activities</strong></span>
+                                {% for activity in activities %}
+                                    <p><strong>{{activity.activity}}:</strong></p>
+                                    <p>    Date: {{activity.activity_date}}</p>
+                                    <p>    Time start: {{activity.activity_time_start}}</p>
+                                    <p>    Time end: {{activity.activity_time_end}}</p>
+                                    <p>    Venue: {{activity.activity_venue}}</p>
+                        </br>
+                                {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+{% endblock %}    

@@ -1,0 +1,34 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+    <div class="col s12 m6">
+        <div class="card hoverable">
+            <div class="card-content">
+                <span class="card-title"><strong>Pending Addendum</strong></span>
+            </div>
+            {% for add in addendum_pending %}
+                <div class='card-action'>
+                    <p><strong><a href="/adminaddendum/{{add.id}}">{{add.event_name.event_name}}:{{add.event_name.student_representative.organization.organization_abbrv}}</a></strong></p>
+                    <p style="font-size:70%">Revision: {{add.addendum_revision}}</p>
+                    <p style="font-size:70%">Reason: {{add.addendum_reason}}</p>
+                    <p style="font-size:70%">Timestamp: {{add.time_stamp_created}}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col s12 m6">
+            <div class="card hoverable">
+                <div class="card-content">
+                    <span class="card-title"><strong>Approved Addendum</strong></span>
+                </div>
+                {% for add in addendum_approved %}
+                <div class='card-action'>
+                    <p><strong><a href="/adminaddendum/{{add.id}}">{{add.event_name.event_name}}:{{add.event_name.student_representative.organization.organization_abbrv}}</a></strong></p>
+                    <p style="font-size:70%">Revision: {{add.addendum_revision}}</p>
+                    <p style="font-size:70%">Reason: {{add.addendum_reason}}</p>
+                    <p style="font-size:70%">Timestamp: {{add.time_stamp_created}}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+{% endblock %}

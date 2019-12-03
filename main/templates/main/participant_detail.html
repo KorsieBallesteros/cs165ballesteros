@@ -1,0 +1,52 @@
+{% extends "main/header.html" %}
+{% block content %}
+    <div class="col s12 m6">
+        <div class="card hoverable">
+            <div class="card-content">
+                <span class="card-title"><strong>{{object.representative.organization.organization_abbrv}}: {{object.signature_list_id.time_stamp}}</strong></span>
+                    <div class='card-action'>
+                        {% for participant in participants %}
+                            <p>{{participant.role}}: {{participant.player.student_name}}</p>
+                        {% endfor %}
+                    </div>
+
+            </div>
+            <form class="col s12" method="post" action="/remove_registration/">
+                {% csrf_token %}
+                    <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit" value="Create">Remove Registration</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+            <div class="col s12 m6">
+                <div class="card hoverable">
+                    <div class="card-content">
+                        <span class="card-title"><strong>Authorized Students</strong></span>
+                        {% for students in students %}
+                        {% if user.is_authenticated %}
+                        {% if user.get_username == students.organization.organization_abbrv %}
+                        <p style="font-size:95%">{{students.student_name}}:{{students.student_number}}</p>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+        
+                    </div>   
+                </div>
+            </div>
+        </div>
+    <div class="container">
+        <div class="row">
+            <form class="col s12" method="post" action="/approve_registration/">
+                {% csrf_token %}
+                <div class="container">
+                    <p>Representative:</p>
+                    <input name="representative" class="form-control" placeholder="rep must be a member of the organization" type="text">
+                    <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit" value="Create">Approve Registration</button>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            </div>
+    </div>
+    
+{% endblock %}

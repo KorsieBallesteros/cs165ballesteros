@@ -1,0 +1,125 @@
+{% extends "main/header.html" %}
+{% block content %}
+<div class="col s12 m6">
+    <div class="card hoverable">
+        <div class="card-content">
+            <span class="card-title"><strong>Students(student_number__student_name__organization__sex__student_email__student_contact_no)</strong></span>
+            {% for students in students %}
+                <p style="font-size:95%">{{students.student_name}}__{{students.student_number}}__{{students.organization}}__{{students.sex}}__{{students.student_email}}__{{students.student_contact_no}}</p>
+            {% endfor %}
+
+        </div>   
+    </div>
+</div>
+<div class="col s12 m6">
+    <div class="card hoverable">
+        <div class="card-content">
+            <span class="card-title"><strong>Organization (organization_name__organization_abbrv)</strong></span>
+            {% for org in organization %}
+                <p style="font-size:95%">{{org.organization_name}}__{{org.organization_abbrv}}</p>
+            {% endfor %}
+
+        </div>   
+    </div>
+</div>
+<div class="col s12 m6">
+    <div class="card hoverable">
+        <div class="card-content">
+            <span class="card-title"><strong>Signatures(list_id,representative,signature,time_stamp)</strong></span>
+            {% for sig in signatures %}
+                <p style="font-size:95%">{{sig.list_id}}__{{sig.representative}}__{{sig.signature}}__{{sig.time_stamp}}</p>
+            {% endfor %}
+
+        </div>   
+    </div>
+</div>
+<div class="col s12 m6">
+        <div class="card hoverable">
+            <div class="card-content">
+                <span class="card-title">Events</span>
+                {% for object in object %}
+                    <strong>{{object.event_name}}</strong>
+                    <p>Event Description: {{object.event_description}}</p>
+                    <p>Event Head: {{object.student_representative}}</p>
+                    <p>Must preregister? 
+                        {% if object.must_prereg == True %}
+                            Yes.
+                        {% else %}
+                            No.
+                        {% endif %}
+                    </p>
+                    <p>Registration fee: {{object.registration_fee}}</p>
+                    <p>Minimun number of players: {{object.number_players_min}}</p>
+                    <p>Maximum number of players: {{object.number_players_max}}</p>
+                    <p>Day or Night Event? {{object.day_or_night}}</p>
+                    <p>Mini Category: {{ object.mini_category }}</p>
+                    <p>Points: 1st: {{object.first_points}}, 2nd: {{object.second_points}}, 3rd: {{object.third_points}}, Party: {{object.party_points}}</p>
+                    <p>Event Rules and Guidelines: {{object.event_rules}}</p>
+                </br>
+                {% endfor %}
+            </div>
+        </div>
+</div>
+<div class="col s12 m6">
+    <div class="card hoverable">
+        <div class="card-content">
+            <span class="card-title"><strong>Activities</strong></span>
+            {% for activity in activities %}
+                <p><strong>{{activity.event_name.event_name}}:{{activity.activity}}</strong></p>
+                <p>    Date: {{activity.activity_date}}</p>
+                <p>    Time start: {{activity.activity_time_start}}</p>
+                <p>    Time end: {{activity.activity_time_end}}</p>
+                <p>    Venue: {{activity.activity_venue}}</p>
+                </br>
+            {% endfor %}
+
+        </div>   
+    </div>
+</div>
+
+<div class="col s12 m6">
+    <div class="card hoverable">
+        <div class="card-content">
+            <span class="card-title"><strong>Participants(event_name__representative__player__role__time_stamp_created__signature_list_id)</strong></span>
+                {% for parti in participants %}
+                    <p>{{parti.event_name.event_name}}__{{parti.representative.student_number}}{{parti.representative.organization.organization_abbrv}}__{{parti.player.student_number}}{{parti.player.organization.organization_abbrv}}__{{parti.role}}__{{parti.time_stamp_created}}__{{parti.signature_list_id.list_id}}</p>
+                {% endfor %}
+
+        </div>   
+    </div>
+</div>
+<div class="col s12 m6">
+    <div class="card hoverable">
+        <div class="card-content">
+            <span class="card-title"><strong>Addendum</strong></span>
+                {% for add in addendums %}
+                    <p>Event_name: {{add.event_name.event_name}}</p>
+                    <p>Addendum Revision: {{add.addendum_revision}}</p>
+                    <p>Addendum Reason: {{add.addendum_reason}}</p>
+                    <p>TimeStamp: {{add.time_stamp_created}}</p>
+                    <p>SignatureListId: {{add.signature_list_id.list_id}}</p>
+                    </br>
+                {% endfor %}
+
+        </div>   
+    </div>
+</div>
+<div class="col s12 m6">
+    <div class="card hoverable">
+        <div class="card-content">
+            <span class="card-title"><strong>Consensus</strong></span>
+                {% for con in consensus %}
+                    <p>Event name: {{con.event_name.event_name}}</p>
+                    <p>Representative: {{con.representative.student_number}}{{con.representative.organization.organization_abbrv}}</p>
+                    <p>Revision: {{con.consensus_revision}}</p>
+                    <p>Reason: {{con.consensus_reason}}</p>
+                    <p>TimeStamp: {{con.time_stamp_created}}</p>
+                    <p>SigantureListId: {{con.signature_list_id.list_id}}</p>
+                    </br>
+                {% endfor %}
+
+        </div>   
+    </div>
+</div>
+
+{% endblock %}

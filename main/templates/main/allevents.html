@@ -1,0 +1,22 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+
+    <div style="color:black">
+            {% for event in events %}
+            <div class="col s12 m6">
+                    <a href = "{{k.event_name}}">
+                    <div class="card hoverable">
+                        <div class="card-content">
+                            <a href="{{event.event_name}}">
+                                <span class="card-title">{{event.event_name}}</span>
+                                <!--<p style="font-size:70%">{{k.event_rules}}</p>-->
+                            </a>
+                        </div>
+                    </a>
+                    </div>
+                </div>
+            {% endfor %}       
+
+    </div>
+{% endblock %}    

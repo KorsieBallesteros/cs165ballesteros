@@ -1,0 +1,72 @@
+======================================================CREATE======================================================
+to initialize datbase use pgAdmin to create a database named "main"
+to initialize tables run "python manage.py makemigrations" and then "python manage.py migrate" on project directory, migrations automatically converts objects to relations
+
+example,
+
+[SQL]
+'''
+CREATE TABLE Organization(
+    organization_name = varchar(200)
+    organization_abbrv = varchar(20) Primary Key
+);
+'''
+[Django]
+class Organization(models.Model):
+    organization_name = models.CharField(max_length=200)
+    organization_abbrv = models.CharField(max_length=20,primary_key=True)
+
+    def __str__(self):
+        return self.organization_name
+
+Used the python script init.py to initialize the database by running "exec(open("init.py").read())" in python shell
+
+some examples,
+
+[SQL]INSERT INTO Organization VALUES('UP Computer Science Society','UPCSS')
+[DJANGO]Organization.objects.create(organization_name='UP Computer Science Society',organization_abbrv='UPCSS')
+
+[SQL]INSERT INTO Student VALUES ('202012345','UPCSS','Bobby F. Corwen','M','bfcorwen@up.edu.ph','90512390429')
+[DJANGO]Student.objects.create(student_number='202012345',organization=Organization.objects.get(organization_abbrv='UPCSS'),student_name='Bobby F. Corwen',sex='M',student_email='bfcorwen@up.edu.ph',student_contact_no='90512390429')
+
+[SQL]INSERT INTO Partcipant (event_name,representative,player,role) VALUES ('Awitan 2021','202012346','202012346','Singer')
+[DJANGO]Participant.objects.create(event_name=Event.objects.get(event_name='Awitan 2021'),representative=Student.objects.get(organization=Organization.objects.get(organization_abbrv='UPAMES'),student_number='202012346'),player=Student.objects.get(organization=Organization.objects.get(organization_abbrv='UPAMES'),student_number='202012346'),role='Singer')
+=======================================================================================================================
+
+
+======================================================Read=============================================================
+Queries were executed mostly on views.py using ORM
+Each organization can see details of their hosted event, Status of consensus
+All can search for the events 
+
+[SQL]
+SELECT representative 
+FROM Participant natural join Event
+WHERE event_name = self.object.event_name;
+
+[Django]
+Participant.objects.filter(event_name__event_name__icontains=self.object.event_name).values('representative')
+=========================================================================================================================
+
+
+======================================================Update=============================================================
+Approval of registration, consensus, and consensus are done by updating the signatures tables
+UPESC can alter event_rules of a event
+[SQL]
+UPDATE Signatures
+SET signature=True
+WHERE list_id = id;
+
+[Django]
+Signatures.objects.filter(list_id = id).update(signature=True)
+=========================================================================================================================
+
+======================================================Delete=============================================================
+The only delete functionality in the app is the removal of participants by a hosting organization
+[SQL]
+DELETE FROM Participant
+WHERE representative= representative1 AND organization = organization1
+
+[Django]
+Participant.objects.filter(representative=Student.objects.get(student_number=representative1, organization=Organization.objects.get(organization_abbrv=organization1))).delete()
+=========================================================================================================================

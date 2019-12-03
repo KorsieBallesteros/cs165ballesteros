@@ -1,0 +1,26 @@
+<nav>
+    <div class="nav-wrapper">
+        <a href="/" class="brand-logo"> Engineering Week Web Application    {{ user.get_username }}</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li class="active"><a href="/">Home</a></li>
+            {% if user.get_username == admin.organization_abbrv %}
+                <li><a href="/myevents">My Events</a></li>
+                <li><a href="/adminaddendum">Addendum</a></li>
+                <li><a href="/adminevent/edit">Update Event</a></li>
+                <li><a href="/database">Database</a></li>
+                <li><a href="/events">Events</a></li>
+                <li><a href="/logout">Logout</a></li>
+
+            {% elif user.is_authenticated %}
+                <li><a href="/myevents">My Events</a></li>
+                <li><a href="/participatingevents">Participating Events</a></li>
+                <li><a href="/events">Events</a></li>
+                <!--<li><a href="/account">{{user.username}}</a></li>-->
+                <li><a href="/logout">Logout</a></li>
+            {% else %}
+                <li><a href="/events">Events</a></li>
+                <li><a href="/login">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

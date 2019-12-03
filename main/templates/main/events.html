@@ -1,0 +1,31 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+    <div class="container">
+        <form method="post" action="/events/">
+            {% csrf_token %}
+            <div class="row">
+                <input type="text" name="srh" class="form-control" placeholder="search...">
+                <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Search</button>
+            </div>
+        </form>
+        {% if user.is_authenticated and user.get_username != admin.organization_abbrv %}
+            <a class="waves-effect waves-light btn" href = "/joinevent/">Join Event</a>
+        {% endif %}
+    </div>
+    <div style="color:black">
+            {% for k in event %}
+            <div class="col s12 m6">
+                    <a href = "{{k.event_name}}">
+                    <div class="card hoverable">
+                        <div class="card-content">
+                            <span class="card-title">{{k.event_name}}</span>
+                            <!--<p style="font-size:70%">{{k.event_rules}}</p>-->
+                        </div>
+                    </a>
+                    </div>
+                </div>
+            {% endfor %}       
+
+    </div>
+{% endblock %}    

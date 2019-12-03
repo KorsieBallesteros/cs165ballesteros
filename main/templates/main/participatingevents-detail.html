@@ -1,0 +1,48 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+    <h4><strong>{{object.event_name}} (Participant)</strong></h4>
+    <div class="row">
+        <div class="col s12 m6">
+            <div class="card hoverable">
+                <div class="card-content">
+                    <span class="card-title">Participants</span>
+
+                    {% for participant in participants %}
+                        <p>{{participant.role}}: {{participant.player.student_name}}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6">
+            <div class="card hoverable">
+                <div class="card-content">
+                    <span class="card-title">Consensus</span>
+
+                    {% for con in consensus %}
+                        {% ifchanged con.consensus_revision %}
+                            <p><a href="{{con.id}}/">{{con.representative.organization.organization_abbrv}}
+                                {% if con.representative.organization.organization_abbrv == con.event_name.student_representative.organization.organization_abbrv %}
+                                    (Host)
+                                {% endif %}
+                                opened on {{con.signature_list_id.time_stamp    }}
+                            </a></p>
+                            <p>Revision: {{con.consensus_revision}}</p>
+                            <p>Reason: {{con.consensus_reason}}</p>
+                        {% endifchanged %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6">
+            <div class="card hoverable">
+                <div class="card-content">
+                    <span class="card-title">Add Changes</span>
+                </div>
+                <div class="card-action">
+                    <a href="/participatingevents/newconsensus">New Consensus</a>
+                </div>
+            </div>
+        </div>        
+    </div>
+{% endblock %}
